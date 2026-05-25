@@ -19,7 +19,6 @@ from geometry_msgs.msg import PointStamped
 from new_package.msg import new_msg
 from new_package.new_package_library import NewActionClient
 
-
 if __name__ == "__main__":
     rospy.init_node("new_package_node", anonymous=True)  # Initialize the node
 
