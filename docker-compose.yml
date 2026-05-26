@@ -13,6 +13,7 @@ services:
                 platforms:
                     - linux/amd64 # for PC
                     - linux/arm64 # for arm64 platforms
+            privileged: true
             tags:
                 - ${DOCKER_USER}/${IMAGE_NAME}:${IMAGE_TAG}
         image: ${DOCKER_USER}/${IMAGE_NAME}:${IMAGE_TAG}
