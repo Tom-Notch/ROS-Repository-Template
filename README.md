@@ -22,9 +22,15 @@ TLDR: Search for `todo` and update all occurrences to your desired name
 
 ### Docker Config
 
-1. Modify `todo-docker-user`, `todo-base-image`, `todo-image-name`, `todo-image-user` in [.env](.env)
+1. Copy [.env.example](.env.example) to `.env`:
 
-   - [.env](.env) will be loaded when you use docker compose for build/run/push
+   ```shell
+   cp .env.example .env
+   ```
+
+1. Modify `todo-docker-user`, `todo-base-image`, `todo-image-name`, `todo-image-user` in `.env`
+
+   - `.env` will be loaded when you use docker compose for build/run/push
    - `todo-docker-user` refers to your docker hub account username
    - `todo-base-image` is the image dockerfile is based on, such as `nvidia/cuda:13.0.0-cudnn-devel-ubuntu24.04`
    - `todo-image-user` refers to the default user inside the image, which is used to determine home folder
