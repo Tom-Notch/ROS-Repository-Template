@@ -1,33 +1,43 @@
-# New ROS Repository
+<h1 align="center">ROS Repository Template</h1>
 
-[![pre-commit](https://github.com/Tom-Notch/ROS-Repository-Template/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/Tom-Notch/ROS-Repository-Template/actions/workflows/pre-commit.yml) [![Continuous Integration](https://github.com/Tom-Notch/ROS-Repository-Template/actions/workflows/CI.yml/badge.svg)](https://github.com/Tom-Notch/ROS-Repository-Template/actions/workflows/CI.yml)
+<p align="center">
+  <em>A GitHub repository template for ROS 2 projects with Docker, pre-commit hooks, and CI/CD</em>
+</p>
 
-This template uses Docker for easy deployment and testing. It also includes GitHub Actions for CI/CD.
+<p align="center">
+  <a href="https://github.com/Tom-Notch/ROS-Repository-Template/actions/workflows/pre-commit.yml"><img src="https://github.com/Tom-Notch/ROS-Repository-Template/actions/workflows/pre-commit.yml/badge.svg" alt="pre-commit"></a>
+  <a href="https://github.com/Tom-Notch/ROS-Repository-Template/actions/workflows/CI.yml"><img src="https://github.com/Tom-Notch/ROS-Repository-Template/actions/workflows/CI.yml/badge.svg" alt="CI"></a>
+  <img src="https://img.shields.io/badge/ROS_2-Jazzy-22314e?logo=ros&logoColor=white" alt="ROS 2 Jazzy">
+  <img src="https://img.shields.io/badge/Docker-Required-2496ed?logo=docker&logoColor=white" alt="Docker">
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
+</p>
+
+A GitHub repository template for ROS 2 (Jazzy) projects. Uses Docker for easy deployment and testing, with pre-commit hooks and GitHub Actions CI/CD included. The template package has both C++ and Python entrypoints.
+
+> **TLDR:** Search for `todo` and update all occurrences to your desired name.
 
 ## Dependencies
 
 - [Docker](https://docs.docker.com/get-docker/)
 
-## Usage Guidelines
-
-TLDR: Search for `todo` and update all occurrences to your desired name
+## Usage
 
 ### Base Repository
 
 1. Change [LICENSE](LICENSE) if necessary
-
-1. Modify [.pre-commit-config.yaml](.pre-commit-config.yaml) according to your need
-
+1. Modify [.pre-commit-config.yaml](.pre-commit-config.yaml) according to your needs
 1. Modify/add GitHub workflow status badges in [README.md](README.md)
 
 ### Docker Config
 
 1. Fill in all `todo-*` placeholders directly in [.env.example](.env.example) and commit — these are project-level constants, not secrets
 
-   - `todo-docker-user` refers to your Docker Hub account username
-   - `todo-base-image` is the base image the Dockerfile builds from, such as `nvidia/cuda:13.0.0-cudnn-devel-ubuntu24.04`
-   - `todo-image-name` is the name of the image you are building
-   - `todo-image-user` is the default user inside the image, used to determine the home folder
+   | Placeholder | Description |
+   |-------------|-------------|
+   | `todo-docker-user` | Your Docker Hub account username |
+   | `todo-base-image` | Base image the Dockerfile builds from (e.g. `nvidia/cuda:13.0.0-cudnn-devel-ubuntu24.04`) |
+   | `todo-image-name` | Name of the image you are building |
+   | `todo-image-user` | Default user inside the image, used to determine the home folder |
 
 1. Copy [.env.example](.env.example) to `.env` and add any user-specific secrets or local overrides:
 
@@ -35,61 +45,65 @@ TLDR: Search for `todo` and update all occurrences to your desired name
    cp .env.example .env
    ```
 
-   - `.env` is gitignored and will NOT be committed — it is the right place for secrets and per-user values
-   - `.env` will be loaded automatically when you use docker compose for build/run/push
+   > `.env` is gitignored and will NOT be committed — it is the right place for secrets and per-user values. It is loaded automatically by docker compose.
 
 1. Modify the service name from `todo-service-name` to your service name in [docker-compose.yml](docker-compose.yml), add additional volume mounting options such as dataset directories
 
-1. Update [Dockerfile](docker/latest/Dockerfile) and [.dockerignore](.dockerignore)
+1. Update [Dockerfile](docker/latest/Dockerfile) and [.dockerignore](.dockerignore) — the existing Dockerfile includes screen & tmux config, oh-my-zsh, cmake, and other basic tools
 
-   - Existing dockerfile has screen & tmux config, oh-my-zsh, cmake, and other basic goodies
-   - Add any additional dependency installations at appropriate locations
+1. Run scripts to build, test, and push:
 
-1. [build.sh](scripts/build.sh) to build and test the image locally in your machine's architecture
+   | Script | Action |
+   |--------|--------|
+   | [build.sh](scripts/build.sh) | Build and test the image locally (uses `buildx` for multi-arch) |
+   | [run_container.sh](scripts/run_container.sh) | Run and test a built image (`docker compose up -d` also works) |
+   | [push.sh](scripts/push.sh) | Push the multi-arch image to Docker Hub |
 
-   - The scripts uses buildx to build multi-arch image, you can disable this by removing redundant archs in [docker-compose.yml](docker-compose.yml)
-   - Building stage does not have GPU access, if some of your dependencies need GPU, build them inside a running container and commit to the final image
-
-1. [run_container.sh](scripts/run_container.sh) or `docker compose up -d` to run and test a built image
-
-   - The service by default will mount the whole repository onto `CODE_FOLDER` inside the container so any modification inside also takes effect outside, which is useful when you use vscode remote extension to develop inside a running container with remote docker context
-   - You should be able to run and see GUI applications inside the container if `DISPLAY` is set correctly when you run the script
-
-1. [push.sh](scripts/push.sh) to push the multi-arch image to docker hub
-
-   - You should have the docker hub repository set up before pushing
+   > The service mounts the entire repository onto `CODE_FOLDER` inside the container — modifications inside are reflected outside, useful for VS Code remote development.
 
 ### ROS Config
 
-The template ROS package has both C++ and Python entrypoints. You can modify the package to suit your needs.
+The template ROS package has both C++ and Python entrypoints.
 
-1. Find all occurrences of **new_package** in code using your IDE's global search feature and replace them with your new ROS package name, must follow *underscore_naming_convention*, these include:
+1. Find all occurrences of **new_package** in code using your IDE's global search and replace with your ROS package name (`underscore_naming_convention`):
 
-   1. package.xml
-   1. CMakeLists.txt
-   1. Python sources under scripts and src (both under the package directory)
-   1. C++ sources under include and src (both under the package directory)
-   1. launch files
-   1. shell script [launch.sh](scripts/launch.sh) to launch docker container and the ROS node
+   <details>
+   <summary>Files to update</summary>
 
-1. Find all occurrences of **new_package** or **NewPackage** in the naming of folders and source files and replace them with your package name, must follow *underscore_naming_convention* for python files and *UpperCamelCase* for non-entrypoint C++ files, these include:
+   - `package.xml`
+   - `CMakeLists.txt`
+   - Python sources under `scripts/` and `src/` (both under the package directory)
+   - C++ sources under `include/` and `src/` (both under the package directory)
+   - Launch files
+   - [launch.sh](scripts/launch.sh) — entry point to launch the ROS node from outside the container
 
-   1. package directory
-   1. Python library directory
-   1. C++ library directory under include
+   </details>
 
-1. Update name of **launch files**
+1. Rename folders and source files containing **new_package** or **NewPackage**:
 
-1. (Optional) In ROS 2 Humble, definitions of **msg, action, and srv** file have to be put in a **dedicated standalone package**, otherwise it'll cause conflict with the python portion of new_package, check out [this GitHub issue](https://github.com/ros2/rosidl_python/issues/141) for more info
+   <details>
+   <summary>Items to rename</summary>
 
-1. Update the package **dependencies** in **package.xml** and **CMakeLists.txt**
+   - Package directory → `underscore_naming_convention`
+   - Python library directory → `underscore_naming_convention`
+   - C++ library directory under `include/` → `UpperCamelCase`
 
-1. Find all occurrences of **new_project** namespace in C++ source files and replace them with your project name
+   </details>
+
+1. Update names of **launch files**
+
+1. **(Optional)** In ROS 2, definitions of **msg, action, and srv** files must be in a **dedicated standalone package** to avoid conflicts with the Python portion of new_package — see [this GitHub issue](https://github.com/ros2/rosidl_python/issues/141) for details
+
+1. Update package **dependencies** in **package.xml** and **CMakeLists.txt**
+
+1. Find all occurrences of **new_project** namespace in C++ source files and replace with your project name
 
 ## Developer Quick Start
 
-- Run [scripts/dev_setup.sh](scripts/dev_setup.sh) to setup the development environment
+```shell
+bash scripts/dev_setup.sh
+```
 
-## Note
+## Notes
 
-- This template currently only supports docker image for amd64 and arm64, if you want to support other architectures, please modify the [build.sh](scripts/build.sh) script and [docker-compose.yml](docker-compose.yml) accordingly
+- Supports `amd64` and `arm64` Docker images. To add other architectures, modify [build.sh](scripts/build.sh) and [docker-compose.yml](docker-compose.yml).
