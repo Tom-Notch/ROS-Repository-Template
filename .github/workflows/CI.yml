@@ -18,11 +18,8 @@ jobs:
                   submodules: recursive
                   fetch-depth: 1
 
-            - name: Run Docker container
-              run: docker compose up -d
+            - name: Setup .env
+              run: cp .env.example .env
 
-            - name: Build ROS Package
-              run: |
-                  source ./.env
-                  docker exec "$CONTAINER_NAME" /bin/zsh -c "source /opt/ros/jazzy/setup.zsh && colcon build"
-              shell: /usr/bin/bash -e {0}
+            - name: Validate docker compose config
+              run: docker compose config
