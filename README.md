@@ -22,18 +22,21 @@ TLDR: Search for `todo` and update all occurrences to your desired name
 
 ### Docker Config
 
-1. Copy [.env.example](.env.example) to `.env`:
+1. Fill in all `todo-*` placeholders directly in [.env.example](.env.example) and commit — these are project-level constants, not secrets
+
+   - `todo-docker-user` refers to your Docker Hub account username
+   - `todo-base-image` is the base image the Dockerfile builds from, such as `nvidia/cuda:13.0.0-cudnn-devel-ubuntu24.04`
+   - `todo-image-name` is the name of the image you are building
+   - `todo-image-user` is the default user inside the image, used to determine the home folder
+
+1. Copy [.env.example](.env.example) to `.env` and add any user-specific secrets or local overrides:
 
    ```shell
    cp .env.example .env
    ```
 
-1. Modify `todo-docker-user`, `todo-base-image`, `todo-image-name`, `todo-image-user` in `.env`
-
-   - `.env` will be loaded when you use docker compose for build/run/push
-   - `todo-docker-user` refers to your docker hub account username
-   - `todo-base-image` is the image dockerfile is based on, such as `nvidia/cuda:13.0.0-cudnn-devel-ubuntu24.04`
-   - `todo-image-user` refers to the default user inside the image, which is used to determine home folder
+   - `.env` is gitignored and will NOT be committed — it is the right place for secrets and per-user values
+   - `.env` will be loaded automatically when you use docker compose for build/run/push
 
 1. Modify the service name from `todo-service-name` to your service name in [docker-compose.yml](docker-compose.yml), add additional volume mounting options such as dataset directories
 
