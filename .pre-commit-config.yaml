@@ -8,7 +8,7 @@ exclude: (?i)^(.*third[^/]*party/.*|.*\.ts|.*\.trt)$
 
 repos:
     - repo: https://github.com/sirosen/check-jsonschema # check-jsonschema is a github actions and workflows verifier.
-      rev: 0.37.2
+      rev: 0.38.0
       hooks:
           - id: check-github-actions
           - id: check-github-workflows
@@ -20,7 +20,7 @@ repos:
             exclude: (?i)(.*docker-compose.*)$ # by-pass docker-compose since the %YAML 1.2 will break it.
 
     - repo: https://github.com/AleksaC/hadolint-py # hadolint is a Dockerfile linter.
-      rev: v2.14.0
+      rev: v2.15.1
       hooks:
           - id: hadolint
             args:
@@ -33,7 +33,7 @@ repos:
           - id: shfmt
 
     - repo: https://github.com/shellcheck-py/shellcheck-py # shellcheck-py is a shellcheck wrapper.
-      rev: v0.11.0.1
+      rev: v0.11.0.1-1
       hooks:
           - id: shellcheck
             args:
@@ -41,7 +41,7 @@ repos:
                 - SC1071,SC1091,SC2016
 
     - repo: https://github.com/asottile/reorder-python-imports
-      rev: v3.16.0
+      rev: v3.17.0
       hooks:
           - id: reorder-python-imports
 
@@ -52,7 +52,7 @@ repos:
           - id: black-jupyter
 
     - repo: https://github.com/pre-commit/mirrors-clang-format # mirrors-clang-format is a clang-format wrapper, it can format json.
-      rev: v22.1.5
+      rev: v23.1.0
       hooks:
           - id: clang-format
             files: (?i)\.(h|c|hpp|cpp|hxx|cxx|cc|json)$ # enabled json, if prettier is used, should turn off json.
@@ -73,7 +73,7 @@ repos:
           - id: mdformat
 
     - repo: https://github.com/jackdewinter/pymarkdown # pymarkdown is a markdown linter.
-      rev: v0.9.37
+      rev: v0.9.39
       hooks:
           - id: pymarkdown
             args:
